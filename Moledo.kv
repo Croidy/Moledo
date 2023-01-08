@@ -1,0 +1,72 @@
+#: kivy 2.1.0
+#: import transition kivy.uix.screenmanager.NoTransition
+
+MyScreenManager:
+    transition: transition()
+
+    MainScreen:
+    OtherScreen:
+
+
+<MainScreen>:
+    name: 'Main'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        canvas:
+
+            Color:
+                rgba: 0.9 , 0.466 , 0.125 , 1
+
+            Rectangle:
+                pos: 0 , root.top-root.top/8
+                size: root.width , root.top/8
+
+            Color:
+                rgba: 1 , 0.96 , 0.698 , 1
+
+            Rectangle:
+                size: root.width , root.top/8*7
+
+        Label:
+            size_hint: 1 , 1
+            text: 'Moledo'
+            color: 0.1 , 0.1 , 0.1 , 1
+            font_size: root.top/10
+            pos: 0 , root.top
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1 , 7
+
+            Button:
+                text:'back'
+                font_size: 30
+                on_release: app.root.current = 'Other'
+
+<OtherScreen>:
+    name: 'Other'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        canvas:
+
+            Color:
+                rgba: 0.9 , 0.466 , 0.125 , 1
+
+            Rectangle:
+                pos: 0 , root.top-root.top/8
+                size: root.width , root.top/8
+
+            Color:
+                rgba: 1 , 0.96 , 0.698 , 1
+
+            Rectangle:
+                size: root.width , root.top/8*7
+
+        Button:
+            text:'back'
+            font_size: 30
+            on_release: app.root.current = 'Main'
