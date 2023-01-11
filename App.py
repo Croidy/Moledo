@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.properties import NumericProperty
 from kivy.lang import Builder       #Not Used
 from kivy.clock import Clock        #Not Used
+from kivy.core.window import Window
 
 from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
@@ -12,6 +13,8 @@ import pandas as pd
 import numpy as np
 import os
 #from functools import cache
+
+Window.size = (450,900)
 
 
 class MainScreen(Screen):
