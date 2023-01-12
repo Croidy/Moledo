@@ -1,20 +1,26 @@
+### Core and Tool imports
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.properties import NumericProperty
-from kivy.lang import Builder       #Not Used
-from kivy.clock import Clock        #Not Used
-from kivy.core.window import Window
+from kivy.lang import Builder           #Unused
+from kivy.clock import Clock            #Unused
+from kivy.core.window import Window     #Unused
 
+### UI imports
 from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.anchorlayout import AnchorLayout
 
+### Typical module imports
 import pandas as pd
 import numpy as np
 import os
 #from functools import cache
 
-Window.size = (450,900)
+
+class CenterLayout(AnchorLayout):
+    pass
 
 
 class MainScreen(Screen):

@@ -8,6 +8,9 @@ MyScreenManager:
     MainScreen:
     RecipeScreen:
 
+<CenterLayout>:
+    anchor_x: 'center'
+    anchor_y: 'center'
 
 <MainScreen>:
     name: 'Main'
@@ -39,12 +42,31 @@ MyScreenManager:
 
         BoxLayout:
             orientation: 'vertical'
-            size_hint: 1 , 7
+            size_hint_y: 7
 
-            Button:
-                text:'back'
-                font_size: 30
-                on_release: app.root.current = 'Recipe'
+            CenterLayout:
+                Button:
+                    text: 'Retseptid'
+                    font_size: 30
+                    background_color: 0.518 , 0.55 , 0.555 , 1
+                    on_release: app.root.current = 'Recipe'
+                    size_hint: 0.4 , 0.5
+
+            CenterLayout:
+                Button:
+                    text: 'Eine Sobivus'
+                    font_size: 30
+                    background_color: 0.518 , 0.55 , 0.555 , 1
+                    on_release: #app.root.current = 'Recipe'
+                    size_hint: 0.4 , 0.5
+
+            CenterLayout:
+                Button:
+                    text: 'Allergia Hoiatused'
+                    font_size: 30
+                    background_color: 0.518 , 0.55 , 0.555 , 1
+                    on_release: #app.root.current = 'Recipe'
+                    size_hint: 0.4 , 0.5
 
 <RecipeScreen>:
     name: 'Recipe'
@@ -72,15 +94,15 @@ MyScreenManager:
             anchor_y: 'top'
 
             Label:
-                text: 'Recipes'
+                text: 'Retseptid'
                 color: 0.1 , 0.1 , 0.1 , 1
                 font_size: root.height/10
                 #pos: 0 , root.top
 
             Button:
                 size_hint: self.texture_size[0]/root.width , 1
-                text: 'back'
-                background_color: 0 , 0 , 0 , 1
+                text: 'Tagasi'
+                background_color: 0.518 , 0.55 , 0.555 , 1
                 font_size: 30
                 on_release: app.root.current = 'Main'
 
@@ -96,4 +118,5 @@ MyScreenManager:
                 RecipeList:
                     cols: 1
                     rows: self.list_size
-                    size_y: 50*self.list_size
+                    #size_y: 50*self.list_size
+                    size_hint_y: 10
