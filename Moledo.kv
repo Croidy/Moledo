@@ -5,6 +5,7 @@ MyScreenManager:
 
     MainScreen:
     RecipeScreen:
+    CalculationScreen:
 
 <CenterLayout>:
     anchor_x: 'center'
@@ -53,23 +54,23 @@ MyScreenManager:
             CenterLayout:
                 Button:
                     text: 'Retseptid'
-                    font_size: 30
+                    font_size: self.size[0]*self.size[1]/1300
                     background_color: root.battleship_grey
                     on_release: app.root.current = 'Recipe'
                     size_hint: 0.4 , 0.5
 
             CenterLayout:
                 Button:
-                    text: 'Eine Sobivus'
-                    font_size: 30
+                    text: 'Eine sobivus'
+                    font_size: self.size[0]*self.size[1]/1300
                     background_color: root.battleship_grey
-                    on_release: #app.root.current = 'Recipe'
+                    on_release: app.root.current = 'Calculation'
                     size_hint: 0.4 , 0.5
 
             CenterLayout:
                 Button:
-                    text: 'Allergia Hoiatused'
-                    font_size: 30
+                    text: 'Allergia hoiatused'
+                    font_size: self.size[0]*self.size[1]/1300
                     background_color: root.battleship_grey
                     on_release: #app.root.current = 'Recipe'
                     size_hint: 0.4 , 0.5
@@ -126,6 +127,9 @@ MyScreenManager:
             RecipeScrollView:
                 do_scroll_x: False
                 do_scroll_y: True
+                height: recipe_list.height
+                scroll_wheel_distance: dp(69)
+                smooth_scroll_end: 5
 
                 RecipeList:
                     id: recipe_list
@@ -133,3 +137,57 @@ MyScreenManager:
                     size_hint: 1, None
                     height: self.minimum_height
                     recipe_width: self.minimum_height
+
+<CalculationScreen>:
+    name: 'Calculation'
+
+    #Colors
+    princeton_orange: (0.9 , 0.466 , 0.125 , 1)
+    eerie_black: (0.1 , 0.1 , 0.1 , 1)
+    blond: (1 , 0.96 , 0.698 , 1)
+    dark_red: (0.58 , 0.105 , 0.05 , 1)
+    battleship_grey: (0.518 , 0.55 , 0.555 , 1)
+
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        canvas:
+
+            Color:
+                rgba: root.princeton_orange
+
+            Rectangle:
+                pos: 0 , root.top-root.top/8
+                size: root.width , root.top/8
+
+            Color:
+                rgba: root.blond
+
+            Rectangle:
+                size: root.width , root.top/8*7
+
+        AnchorLayout:
+            anchor_x: 'left'
+            anchor_y: 'top'
+
+            Label:
+                text: 'Eine sobivus'
+                color: root.eerie_black
+                font_size: root.height/10
+                #pos: 0 , root.top
+
+            Button:
+                size_hint: self.texture_size[0]/root.width , 1
+                text: 'Tagasi'
+                background_color: root.battleship_grey
+                font_size: 30
+                on_release: app.root.current = 'Main'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: 7
+
+            Button:
+                text:'Calc'
+                on_release: root.calc('sex')

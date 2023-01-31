@@ -16,8 +16,10 @@ import numpy as np
 import os
 #from functools import cache
 
+### REMOVE LATER ###
 Window.size = (940,600)
-Window.minimum_width, Window.minimum_height = Window.size
+#Window.minimum_width, Window.minimum_height = Window.size
+### ------------ ###
 
 PRINCETON_ORANGE = (0.9 , 0.466 , 0.125 , 1)
 EERIE_BLACK = (0.1 , 0.1 , 0.1 , 1)
@@ -37,6 +39,11 @@ class MainScreen(MDScreen):
 class RecipeScreen(MDScreen):
     pass
 
+class CalculationScreen(MDScreen):
+    df: pd.DataFrame = pd.read_csv('data/data.csv')
+    
+    def calc(self, feature):
+        print(self.df[[feature]])
 
 class RecipeScrollView(MDScrollView):
     recipes = os.listdir("data/recipes")
@@ -56,7 +63,6 @@ class RecipeList(MDGridLayout):
                                                     line_color=EERIE_BLACK,
                                                     text_color=EERIE_BLACK
                                                 ))
-
 
 class MyScreenManager(MDScreenManager):
     pass
