@@ -1,5 +1,6 @@
 # kivy 2.1.0
 # kivymd 1.1.1
+#: import MDDataTable kivymd.uix.datatables
 
 MyScreenManager:
 
@@ -148,6 +149,7 @@ MyScreenManager:
     dark_red: (0.58 , 0.105 , 0.05 , 1)
     battleship_grey: (0.518 , 0.55 , 0.555 , 1)
 
+    on_enter: self.add_tables()
 
     BoxLayout:
         orientation: 'vertical'
@@ -185,9 +187,6 @@ MyScreenManager:
                 on_release: app.root.current = 'Main'
 
         BoxLayout:
-            orientation: 'vertical'
+            orientation: 'horizontal'
             size_hint_y: 7
-
-            Button:
-                text:'Calc'
-                on_release: root.calc('sex')
+            id: table_area
