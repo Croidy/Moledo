@@ -85,33 +85,22 @@ class IngredientChoosingScreen(MDScreen):
                     anchor_y='bottom',
                     padding=dp(10))
         self.add_widget(button)
-    
+
     def update_amount_table(self, *_):
         self.chosen_rows = self.choosing_table.get_row_checks()
     
     def button_action(self, *_):
         self.parent.current = 'Calculation'
-
+    
+    @classmethod
+    def get_chosen_rows(self):
+        return self.chosen_rows
 
 class IngredientAmountChoosingScreen(MDScreen):
-    table_added = False
 
-    def add_table(self):
-        if self.table_added: return
-
-        self.amount_table = MDDataTable(
-                                    check=True,
-                                    use_pagination=False,
-                                    background_color_header=BATTLESHIP_GREY,
-                                    column_data=[('No.', dp(30)),
-                                                 ('Toiduaine', dp(30))],
-                                    row_data=[]
-                                    )
+    def add_rows(self):
         
-        self.add_widget(self.amount_table)
-        self.ids['amount'] = self.amount_table
-
-        self.table_added = True
+        print(IngredientChoosingScreen.get_chosen_rows())
 
         button = MDAnchorLayout(
                 MDFillRoundFlatButton(
