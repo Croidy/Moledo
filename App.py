@@ -10,6 +10,7 @@ from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.datatables import MDDataTable
+from kivymd.uix.button import MDFillRoundFlatButton
 from kivy.metrics import dp
 
 ### Typical module imports
@@ -39,72 +40,96 @@ BATTLESHIP_GREY = (0.518 , 0.55 , 0.555 , 1)
 
 
 class CenterLayout(MDAnchorLayout):
-    pass
-
-
+    MDAnchorLayout.anchor_x = 'center'
+    MDAnchorLayout.anchor_y = 'center'
+    
 
 class MainScreen(MDScreen):
     pass
 
-
-
 class RecipeScreen(MDScreen):
     pass
 
-
-
 class CalculationScreen(MDScreen):
+    pass
+
+class IngredientChoosingScreen(MDScreen):
     table_added = False
-
-
-
-    def add_tables(self):
+    chosen_rows = []
+    
+    def add_table(self):
         if self.table_added: return
 
-        ########   DATATABLES   #########
         self.choosing_table = MDDataTable(
-                                    check=True,
-                                    use_pagination=False,
-                                    background_color_header=PRINCETON_ORANGE,
-                                    background_color_selected_cell=DARK_RED,
-                                    background_color_cell=BLOND,
-                                    column_data=[('No.', dp(30)),
-                                                 ('Toiduaine', dp(30))],
-                                    row_data=[['1','Porgand'],['2','Kurk'],['3','Tomat']]
-                                    )
+                                        check=True,
+                                        use_pagination=False,
+                                        background_color_header=BATTLESHIP_GREY,
+                                        column_data=[('No.', dp(30)),
+                                                     ('Toiduaine', dp(30))],
+                                        row_data=[['1','Porgand'],['2','Kurk'],['3','Tomat']]
+                                        )
+        
+        self.add_widget(self.choosing_table)
+        self.ids['choosing'] = self.choosing_table
+        self.ids.choosing.bind(on_check_press=self.update_amount_table)
+
+        self.table_added = True
+
+        button = MDAnchorLayout(
+                MDFillRoundFlatButton(
+                    text='Kinnita',
+                    font_size=30,
+                    on_release=self.button_action
+                    ),
+                    anchor_x='right',
+                    anchor_y='bottom',
+                    padding=dp(10))
+        self.add_widget(button)
+    
+    def update_amount_table(self, *_):
+        self.chosen_rows = self.choosing_table.get_row_checks()
+    
+    def button_action(self, *_):
+        self.parent.current = 'Calculation'
+
+
+class IngredientAmountChoosingScreen(MDScreen):
+    table_added = False
+
+    def add_table(self):
+        if self.table_added: return
 
         self.amount_table = MDDataTable(
                                     check=True,
                                     use_pagination=False,
-                                    background_color_header=PRINCETON_ORANGE,
-                                    background_color_selected_cell=DARK_RED,
-                                    background_color_cell=BLOND,
+                                    background_color_header=BATTLESHIP_GREY,
                                     column_data=[('No.', dp(30)),
                                                  ('Toiduaine', dp(30))],
-                                    row_data=[['1','Porgand'],['2','Kurk'],['3','Tomat']]
+                                    row_data=[]
                                     )
-        ######## ------------- #########
-
-
-        self.ids.table_area.add_widget(self.choosing_table)
-        self.ids['choosing'] = self.choosing_table
-        self.ids.choosing.bind(on_check_press=self.update_amount_table)
-        self.ids.table_area.add_widget(self.amount_table)
+        
+        self.add_widget(self.amount_table)
         self.ids['amount'] = self.amount_table
 
         self.table_added = True
+
+        button = MDAnchorLayout(
+                MDFillRoundFlatButton(
+                    text='Kinnita',
+                    font_size=30,
+                    on_release=self.button_action
+                    ),
+                    anchor_x='right',
+                    anchor_y='bottom',
+                    padding=dp(10))
+        self.add_widget(button)
     
-    def update_amount_table(self, *_):
-        print(self.choosing_table.get_row_checks())
-
-
-
+    def button_action(self, *_):
+        self.parent.current = 'Calculation'
 
 class RecipeScrollView(MDScrollView):
     recipes = os.listdir("data/recipes")
     list_size = len(recipes)
-
-
 
 class RecipeList(MDGridLayout):
     recipes = os.listdir("data/recipes")
@@ -121,17 +146,11 @@ class RecipeList(MDGridLayout):
                                                     text_color=EERIE_BLACK
                                                 ))
 
-
-
 class MyScreenManager(MDScreenManager):
     pass
 
-
-
 class MoledoApp(MDApp):
     pass
-
-
 
 
 if __name__ == '__main__':

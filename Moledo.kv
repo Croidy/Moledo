@@ -1,16 +1,14 @@
 # kivy 2.1.0
 # kivymd 1.1.1
-#: import MDDataTable kivymd.uix.datatables
+#: import MDFillRoundFlatButton kivymd.uix.button
 
 MyScreenManager:
 
     MainScreen:
     RecipeScreen:
     CalculationScreen:
-
-<CenterLayout>:
-    anchor_x: 'center'
-    anchor_y: 'center'
+    IngredientChoosingScreen:
+    IngredientAmountChoosingScreen:
 
 <MainScreen>:
     name: 'Main'
@@ -56,7 +54,7 @@ MyScreenManager:
                 Button:
                     text: 'Retseptid'
                     font_size: self.size[0]*self.size[1]/1300
-                    background_color: root.battleship_grey
+                    background_color: root.eerie_black
                     on_release: app.root.current = 'Recipe'
                     size_hint: 0.4 , 0.5
 
@@ -64,7 +62,7 @@ MyScreenManager:
                 Button:
                     text: 'Eine sobivus'
                     font_size: self.size[0]*self.size[1]/1300
-                    background_color: root.battleship_grey
+                    background_color: root.eerie_black
                     on_release: app.root.current = 'Calculation'
                     size_hint: 0.4 , 0.5
 
@@ -72,7 +70,7 @@ MyScreenManager:
                 Button:
                     text: 'Allergia hoiatused'
                     font_size: self.size[0]*self.size[1]/1300
-                    background_color: root.battleship_grey
+                    background_color: root.eerie_black
                     on_release: #app.root.current = 'Recipe'
                     size_hint: 0.4 , 0.5
 
@@ -117,7 +115,7 @@ MyScreenManager:
             Button:
                 size_hint: self.texture_size[0]/root.width , 1
                 text: 'Tagasi'
-                background_color: root.battleship_grey
+                background_color: root.eerie_black
                 font_size: 30
                 on_release: app.root.current = 'Main'
 
@@ -148,8 +146,6 @@ MyScreenManager:
     blond: (1 , 0.96 , 0.698 , 1)
     dark_red: (0.58 , 0.105 , 0.05 , 1)
     battleship_grey: (0.518 , 0.55 , 0.555 , 1)
-
-    on_enter: self.add_tables()
 
     BoxLayout:
         orientation: 'vertical'
@@ -182,11 +178,35 @@ MyScreenManager:
             Button:
                 size_hint: self.texture_size[0]/root.width , 1
                 text: 'Tagasi'
-                background_color: root.battleship_grey
+                background_color: root.eerie_black
                 font_size: 30
                 on_release: app.root.current = 'Main'
 
         BoxLayout:
-            orientation: 'horizontal'
+            orientation: 'vertical'
             size_hint_y: 7
             id: table_area
+            
+            CenterLayout:
+                MDFillRoundFlatButton:
+                    text: 'Vali koostisosad'
+                    text_color: 'white'
+                    md_bg_color: root.eerie_black
+                    font_size: 30
+                    on_release: app.root.current = 'Ingredient Choosing'
+                    
+            CenterLayout:
+                MDFillRoundFlatButton:
+                    text: 'Vali kogused'
+                    text_color: 'white'
+                    md_bg_color: root.eerie_black
+                    font_size: 30
+                    on_release: app.root.current = 'Ingredient Amount Choosing'
+
+<IngredientChoosingScreen>:
+    name: 'Ingredient Choosing'
+    on_enter: self.add_table()
+
+<IngredientAmountChoosingScreen>:
+    name: 'Ingredient Amount Choosing'
+    on_pre_enter: self.add_table()
