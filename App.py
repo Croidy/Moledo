@@ -11,6 +11,8 @@ from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.button import MDFillRoundFlatButton
+from kivymd.uix.label import MDLabel
+from kivymd.uix.textfield import MDTextField
 from kivy.metrics import dp
 
 ### Typical module imports
@@ -38,12 +40,15 @@ BATTLESHIP_GREY = (0.518 , 0.55 , 0.555 , 1)
 
 
 
+class CommonValues():
+    chosen_rows = []
+    df = pd.read_csv('data/data.csv')
+    ingredients = [[str(x).title()] for x in df][1:]
 
 class CenterLayout(MDAnchorLayout):
     MDAnchorLayout.anchor_x = 'center'
     MDAnchorLayout.anchor_y = 'center'
     
-
 class MainScreen(MDScreen):
     pass
 
@@ -55,7 +60,6 @@ class CalculationScreen(MDScreen):
 
 class IngredientChoosingScreen(MDScreen):
     table_added = False
-    chosen_rows = []
     
     def add_table(self):
         if self.table_added: return
@@ -64,9 +68,9 @@ class IngredientChoosingScreen(MDScreen):
                                         check=True,
                                         use_pagination=False,
                                         background_color_header=BATTLESHIP_GREY,
-                                        column_data=[('No.', dp(30)),
-                                                     ('Toiduaine', dp(30))],
-                                        row_data=[['1','Porgand'],['2','Kurk'],['3','Tomat']]
+                                        column_data=[('Toiduaine', dp(30))],
+                                        row_data=CommonValues.ingredients,
+                                        rows_num=len(CommonValues.ingredients)
                                         )
         
         self.add_widget(self.choosing_table)
@@ -87,20 +91,30 @@ class IngredientChoosingScreen(MDScreen):
         self.add_widget(button)
 
     def update_amount_table(self, *_):
-        self.chosen_rows = self.choosing_table.get_row_checks()
+        CommonValues.chosen_rows = self.choosing_table.get_row_checks()
     
     def button_action(self, *_):
         self.parent.current = 'Calculation'
-    
-    @classmethod
-    def get_chosen_rows(self):
-        return self.chosen_rows
 
 class IngredientAmountChoosingScreen(MDScreen):
 
     def add_rows(self):
         
-        print(IngredientChoosingScreen.get_chosen_rows())
+        for item_name in CommonValues.chosen_rows:
+            item_name = item_name[0]
+
+            self.ids.left_side.add_widget(MDLabel(
+                text=item_name,
+                font_size=50,
+                size_hint=(1, None),
+                text_color=EERIE_BLACK
+            ))
+            self.ids.right_side.add_widget(MDTextField(
+                input_filter='float',
+                hint_text='Kogus grammides (nt. 38.6)',
+                size_hint=(1, None),
+                font_size=50
+            ))
 
         button = MDAnchorLayout(
                 MDFillRoundFlatButton(
@@ -115,6 +129,9 @@ class IngredientAmountChoosingScreen(MDScreen):
     
     def button_action(self, *_):
         self.parent.current = 'Calculation'
+
+class IngredientList(MDGridLayout):
+    pass
 
 class RecipeScrollView(MDScrollView):
     recipes = os.listdir("data/recipes")
@@ -144,3 +161,4 @@ class MoledoApp(MDApp):
 
 if __name__ == '__main__':
     MoledoApp().run()
+    print(CommonValues.chosen_rows)
