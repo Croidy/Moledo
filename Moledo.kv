@@ -136,7 +136,6 @@ MyScreenManager:
                     cols: 1
                     size_hint: 1, None
                     height: self.minimum_height
-                    recipe_width: self.minimum_height
 
 <CalculationScreen>:
     name: 'Calculation'
@@ -186,7 +185,6 @@ MyScreenManager:
         BoxLayout:
             orientation: 'vertical'
             size_hint_y: 7
-            id: table_area
             
             CenterLayout:
                 MDFillRoundFlatButton:
@@ -208,6 +206,10 @@ MyScreenManager:
     name: 'Ingredient Choosing'
     on_enter: self.add_table()
 
+    CenterLayout:
+        id: table_area
+
+
 <IngredientAmountChoosingScreen>:
     name: 'Ingredient Amount Choosing'
     on_enter: self.add_rows()
@@ -217,27 +219,10 @@ MyScreenManager:
         do_scroll_y: True
         scroll_wheel_distance: dp(69)
         smooth_scroll_end: 5
-        height: (left_side.height+right_side.height)/2
+        height: ingredient_list.minimum_height
 
-        BoxLayout:
-            orientation: 'horizontal'
+        IngredientList:
+            id: ingredient_list
+            cols: 2
             size_hint: 1, None
-
-            IngredientList:
-                id: left_side
-                cols: 1
-                size_hint: 1, 1
-                height: self.minimum_height
-                recipe_width: self.minimum_height
-
-                
-
-
-            IngredientList:
-                id: right_side
-                cols: 1
-                size_hint: 1, 1
-                height: self.minimum_height
-                recipe_width: self.minimum_height
-
-                
+            height: self.minimum_height

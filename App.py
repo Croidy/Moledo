@@ -66,19 +66,21 @@ class IngredientChoosingScreen(MDScreen):
 
         self.choosing_table = MDDataTable(
                                         check=True,
-                                        use_pagination=False,
+                                        use_pagination=True,
+                                        pagination_menu_pos='auto',
                                         background_color_header=BATTLESHIP_GREY,
-                                        column_data=[('Toiduaine', dp(30))],
-                                        row_data=CommonValues.ingredients,
-                                        rows_num=len(CommonValues.ingredients)
+                                        column_data=[('Toiduaine', dp(30)),('Sobivus', dp(30))],
+                                        row_data=[*zip((x[0] for x in (CommonValues.ingredients)),[*(f"{round(x*100,1)}%" for x in list(CommonValues.df.mean(axis=0)))])],
+                                        rows_num=round(len(CommonValues.ingredients)/3)
                                         )
         
-        self.add_widget(self.choosing_table)
+        self.ids.table_area.add_widget(self.choosing_table)
         self.ids['choosing'] = self.choosing_table
-        self.ids.choosing.bind(on_check_press=self.update_amount_table)
+        self.ids.choosing.bind(on_check_press=self.update_chosen_rows)
 
         self.table_added = True
 
+        # Add return button
         button = MDAnchorLayout(
                 MDFillRoundFlatButton(
                     text='Kinnita',
@@ -86,36 +88,49 @@ class IngredientChoosingScreen(MDScreen):
                     on_release=self.button_action
                     ),
                     anchor_x='right',
-                    anchor_y='bottom',
+                    anchor_y='top',
                     padding=dp(10))
         self.add_widget(button)
 
-    def update_amount_table(self, *_):
+    def update_chosen_rows(self, *_):
         CommonValues.chosen_rows = self.choosing_table.get_row_checks()
     
     def button_action(self, *_):
         self.parent.current = 'Calculation'
 
 class IngredientAmountChoosingScreen(MDScreen):
+    past_ingredients = []
+
 
     def add_rows(self):
         
-        for item_name in CommonValues.chosen_rows:
+        # Clear children if values changed
+        if self.past_ingredients != CommonValues.chosen_rows:
+            self.ids.ingredient_list.clear_widgets(self.ids.ingredient_list.children)
+        
+        else:
+            return
+        
+        self.past_ingredients = CommonValues.chosen_rows
+
+        # Set new fields for input
+        for item_name in self.past_ingredients:
             item_name = item_name[0]
 
-            self.ids.left_side.add_widget(MDLabel(
+            self.ids.ingredient_list.add_widget(MDLabel(
                 text=item_name,
                 font_size=50,
                 size_hint=(1, None),
                 text_color=EERIE_BLACK
             ))
-            self.ids.right_side.add_widget(MDTextField(
+            self.ids.ingredient_list.add_widget(MDTextField(
                 input_filter='float',
                 hint_text='Kogus grammides (nt. 38.6)',
                 size_hint=(1, None),
                 font_size=50
             ))
 
+        # Add return button
         button = MDAnchorLayout(
                 MDFillRoundFlatButton(
                     text='Kinnita',
@@ -161,4 +176,3 @@ class MoledoApp(MDApp):
 
 if __name__ == '__main__':
     MoledoApp().run()
-    print(CommonValues.chosen_rows)
