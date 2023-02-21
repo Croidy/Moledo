@@ -2,6 +2,7 @@
 # kivymd 1.1.1
 #: import MDFillRoundFlatButton kivymd.uix.button
 #: import MDTextField kivymd.uix.textfield
+#: import MDRaisedButton kivymd.uix.button
 
 MyScreenManager:
 
@@ -52,26 +53,26 @@ MyScreenManager:
             size_hint_y: 7
 
             CenterLayout:
-                Button:
+                MDFillRoundFlatButton:
                     text: 'Retseptid'
                     font_size: self.size[0]*self.size[1]/1300
-                    background_color: root.eerie_black
+                    md_bg_color: root.eerie_black
                     on_release: app.root.current = 'Recipe'
                     size_hint: 0.4 , 0.5
 
             CenterLayout:
-                Button:
+                MDFillRoundFlatButton:
                     text: 'Eine sobivus'
                     font_size: self.size[0]*self.size[1]/1300
-                    background_color: root.eerie_black
+                    md_bg_color: root.eerie_black
                     on_release: app.root.current = 'Calculation'
                     size_hint: 0.4 , 0.5
 
             CenterLayout:
-                Button:
+                MDFillRoundFlatButton:
                     text: 'Allergia hoiatused'
                     font_size: self.size[0]*self.size[1]/1300
-                    background_color: root.eerie_black
+                    md_bg_color: root.eerie_black
                     on_release: #app.root.current = 'Recipe'
                     size_hint: 0.4 , 0.5
 
@@ -113,10 +114,10 @@ MyScreenManager:
                 font_size: root.height/10
                 #pos: 0 , root.top
 
-            Button:
-                size_hint: self.texture_size[0]/root.width , 1
+            MDRaisedButton:
+                size_hint: self.width/root.width , 1
                 text: 'Tagasi'
-                background_color: root.eerie_black
+                md_bg_color: root.eerie_black
                 font_size: 30
                 on_release: app.root.current = 'Main'
 
@@ -175,10 +176,10 @@ MyScreenManager:
                 font_size: root.height/10
                 #pos: 0 , root.top
 
-            Button:
-                size_hint: self.texture_size[0]/root.width , 1
+            MDRaisedButton:
+                size_hint: self.width/root.width , 1
                 text: 'Tagasi'
-                background_color: root.eerie_black
+                md_bg_color: root.eerie_black
                 font_size: 30
                 on_release: app.root.current = 'Main'
 
@@ -205,6 +206,7 @@ MyScreenManager:
 <IngredientChoosingScreen>:
     name: 'Ingredient Choosing'
     on_enter: self.add_table()
+    on_pre_enter: self.add_return_button()
 
     CenterLayout:
         id: table_area
@@ -212,7 +214,8 @@ MyScreenManager:
 
 <IngredientAmountChoosingScreen>:
     name: 'Ingredient Amount Choosing'
-    on_enter: self.add_rows()
+    on_pre_enter: self.add_rows()
+    on_pre_enter: self.add_return_button()
 
     ScrollView:
         do_scroll_x: False

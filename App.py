@@ -22,6 +22,13 @@ import os
 #from functools import cache
 
 
+###############NOTES#################
+"""
+
+    Must use FULLSCREEN for DataTable to select_all
+
+"""
+#####################################
 
 
 ### REMOVE LATER ###
@@ -66,12 +73,12 @@ class IngredientChoosingScreen(MDScreen):
 
         self.choosing_table = MDDataTable(
                                         check=True,
-                                        use_pagination=True,
+                                        use_pagination=False,
                                         pagination_menu_pos='auto',
                                         background_color_header=BATTLESHIP_GREY,
-                                        column_data=[('Toiduaine', dp(30)),('Sobivus', dp(30))],
-                                        row_data=[*zip((x[0] for x in (CommonValues.ingredients)),[*(f"{round(x*100,1)}%" for x in list(CommonValues.df.mean(axis=0)))])],
-                                        rows_num=round(len(CommonValues.ingredients)/3)
+                                        column_data=[('No.', dp(30)),('Toiduaine', dp(30)),('Sobivus', dp(30))],
+                                        row_data=[*zip([*(range(1,len(CommonValues.ingredients)+1))],(x[0] for x in (CommonValues.ingredients)),[*(f"{round(x*100,1)}%" for x in list(CommonValues.df.mean(axis=0)))])],
+                                        rows_num=len(CommonValues.ingredients)
                                         )
         
         self.ids.table_area.add_widget(self.choosing_table)
@@ -79,6 +86,8 @@ class IngredientChoosingScreen(MDScreen):
         self.ids.choosing.bind(on_check_press=self.update_chosen_rows)
 
         self.table_added = True
+
+    def add_return_button(self, *_):
 
         # Add return button
         button = MDAnchorLayout(
@@ -88,8 +97,8 @@ class IngredientChoosingScreen(MDScreen):
                     on_release=self.button_action
                     ),
                     anchor_x='right',
-                    anchor_y='top',
-                    padding=dp(10))
+                    anchor_y='bottom',
+                    padding=dp(20))
         self.add_widget(button)
 
     def update_chosen_rows(self, *_):
@@ -97,6 +106,7 @@ class IngredientChoosingScreen(MDScreen):
     
     def button_action(self, *_):
         self.parent.current = 'Calculation'
+        self.update_chosen_rows()
 
 class IngredientAmountChoosingScreen(MDScreen):
     past_ingredients = []
@@ -115,7 +125,7 @@ class IngredientAmountChoosingScreen(MDScreen):
 
         # Set new fields for input
         for item_name in self.past_ingredients:
-            item_name = item_name[0]
+            item_name = item_name[1]
 
             self.ids.ingredient_list.add_widget(MDLabel(
                 text=item_name,
@@ -130,6 +140,9 @@ class IngredientAmountChoosingScreen(MDScreen):
                 font_size=50
             ))
 
+
+    def add_return_button(self, *_):
+        
         # Add return button
         button = MDAnchorLayout(
                 MDFillRoundFlatButton(
@@ -139,7 +152,7 @@ class IngredientAmountChoosingScreen(MDScreen):
                     ),
                     anchor_x='right',
                     anchor_y='bottom',
-                    padding=dp(10))
+                    padding=dp(20))
         self.add_widget(button)
     
     def button_action(self, *_):
