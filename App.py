@@ -13,6 +13,7 @@ from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.button import MDFillRoundFlatButton
 from kivymd.uix.label import MDLabel
 from kivymd.uix.textfield import MDTextField
+from kivy.properties import NumericProperty
 from kivy.metrics import dp
 
 ### Typical module imports
