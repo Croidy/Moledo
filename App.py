@@ -2,7 +2,7 @@
 from kivymd.app import MDApp
 from kivymd.uix.screenmanager import MDScreenManager
 from kivymd.uix.screen import MDScreen
-from kivy.core.window import Window
+from kivy.core.window import WindowBase, Window
 
 ### UI imports
 from kivymd.uix.button.button import MDRectangleFlatButton
@@ -13,8 +13,9 @@ from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.button import MDFillRoundFlatButton
 from kivymd.uix.label import MDLabel
 from kivymd.uix.textfield import MDTextField
-from kivy.properties import NumericProperty
+from kivy.properties import NumericProperty, AliasProperty
 from kivy.metrics import dp
+from kivy.config import Config
 
 ### Typical module imports
 import pandas as pd
@@ -23,21 +24,22 @@ import os
 #from functools import cache
 
 
-###############NOTES#################
+##########     NOTES     ############
 """
 
     Must use FULLSCREEN for DataTable to select_all
+    and back arrow to display correctly
 
 """
-#####################################
+########## ------------- ############
 
 
-### REMOVE LATER ###
-Window.size = (940,600)
-#Window.minimum_width, Window.minimum_height = Window.size
-### ------------ ###
+##### SET WINDOW TO NON-RESIZEABLE #######
 
+Window.maximize()
+WindowBase.fullscreen = True
 
+##### ---------------------------- #######
 
 
 PRINCETON_ORANGE = (0.9 , 0.466 , 0.125 , 1)
@@ -94,7 +96,7 @@ class IngredientChoosingScreen(MDScreen):
         button = MDAnchorLayout(
                 MDFillRoundFlatButton(
                     text='Kinnita',
-                    font_size=30,
+                    font_size=50,
                     on_release=self.button_action
                     ),
                     anchor_x='right',
@@ -148,7 +150,7 @@ class IngredientAmountChoosingScreen(MDScreen):
         button = MDAnchorLayout(
                 MDFillRoundFlatButton(
                     text='Kinnita',
-                    font_size=30,
+                    font_size=50,
                     on_release=self.button_action
                     ),
                     anchor_x='right',

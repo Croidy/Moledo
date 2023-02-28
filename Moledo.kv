@@ -177,17 +177,18 @@ MyScreenManager:
                 color: root.eerie_black
                 font_size: root.height/10
 
-            MDRaisedButton:
-                size_hint: self.width/root.width , 1
-                text: 'Tagasi'
-                md_bg_color: root.eerie_black
-                font_size: 30
+            MDIconButton:
+                icon: 'arrow-left-thick'
+                icon_size: sp(root.height/12)
+                halign: 'center'
+                valign: 'center'
+                size_hint: 0.07 , 1
                 on_release: app.root.current = 'Main'
 
         BoxLayout:
             orientation: 'vertical'
             size_hint_y: 7
-            
+
             CenterLayout:
                 MDFillRoundFlatButton:
                     text: 'Vali koostisosad'
@@ -195,7 +196,7 @@ MyScreenManager:
                     md_bg_color: root.eerie_black
                     font_size: 30
                     on_release: app.root.current = 'Ingredient Choosing'
-                    
+
             CenterLayout:
                 MDFillRoundFlatButton:
                     text: 'Vali kogused'
