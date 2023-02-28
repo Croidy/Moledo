@@ -96,7 +96,7 @@ class IngredientChoosingScreen(MDScreen):
         button = MDAnchorLayout(
                 MDFillRoundFlatButton(
                     text='Kinnita',
-                    font_size=50,
+                    font_size=70,
                     on_release=self.button_action
                     ),
                     anchor_x='right',
@@ -132,15 +132,17 @@ class IngredientAmountChoosingScreen(MDScreen):
 
             self.ids.ingredient_list.add_widget(MDLabel(
                 text=item_name,
-                font_size=50,
+                font_style='H2',
                 size_hint=(1, None),
-                text_color=EERIE_BLACK
+                text_color=EERIE_BLACK,
+                halign='right',
+                padding=(50, 0)
             ))
             self.ids.ingredient_list.add_widget(MDTextField(
                 input_filter='float',
                 hint_text='Kogus grammides (nt. 38.6)',
                 size_hint=(1, None),
-                font_size=50
+                font_size=40
             ))
 
 
@@ -150,7 +152,7 @@ class IngredientAmountChoosingScreen(MDScreen):
         button = MDAnchorLayout(
                 MDFillRoundFlatButton(
                     text='Kinnita',
-                    font_size=50,
+                    font_size=70,
                     on_release=self.button_action
                     ),
                     anchor_x='right',
