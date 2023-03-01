@@ -50,10 +50,20 @@ BATTLESHIP_GREY = (0.518 , 0.55 , 0.555 , 1)
 
 
 
-class CommonValues():
+class CommonLogic():
     chosen_rows = []
     df = pd.read_csv('data/data.csv')
     ingredients = [[str(x).title()] for x in df][1:]
+
+    ingredient_amounts = {}
+
+    def test(*a, **kw):
+        print((a, kw) if a or kw else 'test')
+    
+    def update_ingredient_amount(text_field, *args):
+        CommonLogic.ingredient_amounts[text_field.itemid] = text_field.text
+    
+    
 
 class CenterLayout(MDAnchorLayout):
     MDAnchorLayout.anchor_x = 'center'
@@ -80,8 +90,8 @@ class IngredientChoosingScreen(MDScreen):
                                         pagination_menu_pos='auto',
                                         background_color_header=BATTLESHIP_GREY,
                                         column_data=[('No.', dp(30)),('Toiduaine', dp(30)),('Sobivus', dp(30))],
-                                        row_data=[*zip([*(range(1,len(CommonValues.ingredients)+1))],(x[0] for x in (CommonValues.ingredients)),[*(f"{round(x*100,1)}%" for x in list(CommonValues.df.mean(axis=0)))])],
-                                        rows_num=len(CommonValues.ingredients)
+                                        row_data=[*zip([*(range(1,len(CommonLogic.ingredients)+1))],(x[0] for x in (CommonLogic.ingredients)),[*(f"{round(x*100,1)}%" for x in list(CommonLogic.df.mean(axis=0)))])],
+                                        rows_num=len(CommonLogic.ingredients)
                                         )
         
         self.ids.table_area.add_widget(self.choosing_table)
@@ -105,7 +115,7 @@ class IngredientChoosingScreen(MDScreen):
         self.add_widget(button)
 
     def update_chosen_rows(self, *_):
-        CommonValues.chosen_rows = self.choosing_table.get_row_checks()
+        CommonLogic.chosen_rows = self.choosing_table.get_row_checks()
     
     def button_action(self, *_):
         self.parent.current = 'Calculation'
@@ -118,13 +128,13 @@ class IngredientAmountChoosingScreen(MDScreen):
     def add_rows(self):
         
         # Clear children if values changed
-        if self.past_ingredients != CommonValues.chosen_rows:
+        if self.past_ingredients != CommonLogic.chosen_rows:
             self.ids.ingredient_list.clear_widgets(self.ids.ingredient_list.children)
         
         else:
             return
         
-        self.past_ingredients = CommonValues.chosen_rows
+        self.past_ingredients = CommonLogic.chosen_rows
 
         # Set new fields for input
         for item_name in self.past_ingredients:
@@ -138,12 +148,14 @@ class IngredientAmountChoosingScreen(MDScreen):
                 halign='right',
                 padding=(50, 0)
             ))
-            self.ids.ingredient_list.add_widget(MDTextField(
+            text_field = MDTextField(
                 input_filter='float',
-                hint_text='Kogus grammides (nt. 38.6)',
+                hint_text='Kogus grammides',
                 size_hint=(1, None),
-                font_size=40
-            ))
+                font_size=40)
+            text_field.itemid=item_name
+            text_field.bind(focus=CommonLogic.update_ingredient_amount)
+            self.ids.ingredient_list.add_widget(text_field)
 
 
     def add_return_button(self, *_):
