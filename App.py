@@ -54,16 +54,36 @@ class CommonLogic():
     chosen_rows = []
     df = pd.read_csv('data/data.csv')
     ingredients = [[str(x).title()] for x in df][1:]
+    calculation_errors = 0
 
     ingredient_amounts = {}
 
     def test(*a, **kw):
         print((a, kw) if a or kw else 'test')
     
-    def update_ingredient_amount(text_field, *args):
+    def update_ingredient_amount(text_field, *args, **kwargs):
         CommonLogic.ingredient_amounts[text_field.itemid] = text_field.text
+        #### REMOVE ####
+        CommonLogic.calculate_suitability()
+        #### REMOVE ####
     
-    
+    def calculate_suitability(*args, **kwargs) -> float:
+        CommonLogic.calculation_errors = 0
+
+        total_mass = sum([float(x) for x in CommonLogic.ingredient_amounts.values() if x != ''])
+        total_suitable = 0.0
+
+        for ingredient in CommonLogic.df[1:]:
+            if ingredient.title() in CommonLogic.ingredient_amounts.keys():
+                acceptances = CommonLogic.df[ingredient]
+                try:
+                    total_suitable += sum(acceptances)/len(acceptances)*(float(CommonLogic.ingredient_amounts[ingredient.title()])/total_mass)
+                except:
+                    CommonLogic.calculation_errors += 1
+
+        return total_suitable
+
+
 
 class CenterLayout(MDAnchorLayout):
     MDAnchorLayout.anchor_x = 'center'
