@@ -5,24 +5,23 @@
 #: import MDRaisedButton kivymd.uix.button
 #: import MDIconButton kivymd.uix.button
 
+## COLORS ##
+#: set PRINCETON_ORANGE (0.9 , 0.466 , 0.125 , 1)
+#: set EERIE_BLACK (0.1 , 0.1 , 0.1 , 1)
+#: set BLOND (1 , 0.96 , 0.698 , 1)
+#: set DARK_RED (0.58 , 0.105 , 0.05 , 1)
+#: set BATTLESHIP_GREY (0.518 , 0.55 , 0.555 , 1)
+
 MyScreenManager:
 
     MainScreen:
     RecipeScreen:
-    CalculationScreen:
+    SuitabilityScreen:
     IngredientChoosingScreen:
     IngredientAmountChoosingScreen:
 
 <MainScreen>:
     name: 'Main'
-
-    #Colors
-    princeton_orange: (0.9 , 0.466 , 0.125 , 1)
-    eerie_black: (0.1 , 0.1 , 0.1 , 1)
-    blond: (1 , 0.96 , 0.698 , 1)
-    dark_red: (0.58 , 0.105 , 0.05 , 1)
-    battleship_grey: (0.518 , 0.55 , 0.555 , 1)
-
 
     BoxLayout:
         orientation: 'vertical'
@@ -30,14 +29,14 @@ MyScreenManager:
         canvas:
 
             Color:
-                rgba: root.princeton_orange
+                rgba: PRINCETON_ORANGE
 
             Rectangle:
                 pos: 0 , root.top-root.top/8
                 size: root.width , root.top/8
 
             Color:
-                rgba: root.blond
+                rgba: BLOND
 
             Rectangle:
                 size: root.width , root.top/8*7
@@ -45,7 +44,7 @@ MyScreenManager:
         Label:
             size_hint: 1 , 1
             text: 'Moledo'
-            color: root.eerie_black
+            color: EERIE_BLACK
             font_size: root.top/10
             pos: 0 , root.top
 
@@ -57,7 +56,7 @@ MyScreenManager:
                 MDFillRoundFlatButton:
                     text: 'Retseptid'
                     font_size: self.size[0]*self.size[1]/1300
-                    md_bg_color: root.eerie_black
+                    md_bg_color: EERIE_BLACK
                     on_release: app.root.current = 'Recipe'
                     size_hint: 0.4 , 0.5
 
@@ -65,15 +64,15 @@ MyScreenManager:
                 MDFillRoundFlatButton:
                     text: 'Eine sobivus'
                     font_size: self.size[0]*self.size[1]/1300
-                    md_bg_color: root.eerie_black
-                    on_release: app.root.current = 'Calculation'
+                    md_bg_color: EERIE_BLACK
+                    on_release: app.root.current = 'Suitability'
                     size_hint: 0.4 , 0.5
 
             CenterLayout:
                 MDFillRoundFlatButton:
                     text: 'Allergia hoiatused'
                     font_size: self.size[0]*self.size[1]/1300
-                    md_bg_color: root.eerie_black
+                    md_bg_color: EERIE_BLACK
                     on_release: #app.root.current = 'Recipe'
                     size_hint: 0.4 , 0.5
 
@@ -81,27 +80,20 @@ MyScreenManager:
     name: 'Recipe'
     heighty: self.height
 
-    #Colors
-    princeton_orange: (0.9 , 0.466 , 0.125 , 1)
-    eerie_black: (0.1 , 0.1 , 0.1 , 1)
-    blond: (1 , 0.96 , 0.698 , 1)
-    dark_red: (0.58 , 0.105 , 0.05 , 1)
-    battleship_grey: (0.518 , 0.55 , 0.555 , 1)
-
     BoxLayout:
         orientation: 'vertical'
 
         canvas:
 
             Color:
-                rgba: root.princeton_orange
+                rgba: PRINCETON_ORANGE
 
             Rectangle:
                 pos: 0 , root.top-root.top/8
                 size: root.width , root.top/8
 
             Color:
-                rgba: root.blond
+                rgba: BLOND
 
             Rectangle:
                 size: root.width , root.top/8*7
@@ -112,7 +104,7 @@ MyScreenManager:
 
             Label:
                 text: 'Retseptid'
-                color: root.eerie_black
+                color: EERIE_BLACK
                 font_size: root.height/10
 
             MDIconButton:
@@ -140,15 +132,8 @@ MyScreenManager:
                     size_hint: 1, None
                     height: self.minimum_height
 
-<CalculationScreen>:
-    name: 'Calculation'
-
-    #Colors
-    princeton_orange: (0.9 , 0.466 , 0.125 , 1)
-    eerie_black: (0.1 , 0.1 , 0.1 , 1)
-    blond: (1 , 0.96 , 0.698 , 1)
-    dark_red: (0.58 , 0.105 , 0.05 , 1)
-    battleship_grey: (0.518 , 0.55 , 0.555 , 1)
+<SuitabilityScreen>:
+    name: 'Suitability'
 
     BoxLayout:
         orientation: 'vertical'
@@ -156,14 +141,14 @@ MyScreenManager:
         canvas:
 
             Color:
-                rgba: root.princeton_orange
+                rgba: PRINCETON_ORANGE
 
             Rectangle:
                 pos: 0 , root.top-root.top/8
                 size: root.width , root.top/8
 
             Color:
-                rgba: root.blond
+                rgba: BLOND
 
             Rectangle:
                 size: root.width , root.top/8*7
@@ -174,7 +159,7 @@ MyScreenManager:
 
             Label:
                 text: 'Eine sobivus'
-                color: root.eerie_black
+                color: EERIE_BLACK
                 font_size: root.height/10
 
             MDIconButton:
@@ -193,7 +178,7 @@ MyScreenManager:
                 MDFillRoundFlatButton:
                     text: 'Vali koostisosad'
                     text_color: 'white'
-                    md_bg_color: root.eerie_black
+                    md_bg_color: EERIE_BLACK
                     font_size: 100
                     size_hint: 0.45 , 0.35
                     on_release: app.root.current = 'Ingredient Choosing'
@@ -202,10 +187,20 @@ MyScreenManager:
                 MDFillRoundFlatButton:
                     text: 'Vali kogused'
                     text_color: 'white'
-                    md_bg_color: root.eerie_black
+                    md_bg_color: EERIE_BLACK
                     font_size: 100
                     size_hint: 0.45 , 0.35
                     on_release: app.root.current = 'Ingredient Amount Choosing'
+
+            CenterLayout:
+                MDFillRoundFlatButton:
+                    text: 'Arvuta sobivus'
+                    text_color: 'white'
+                    md_bg_color: EERIE_BLACK
+                    font_size: 100
+                    size_hint: 0.45 , 0.35
+                    on_release: root.show_result_dialog()
+
 
 <IngredientChoosingScreen>:
     name: 'Ingredient Choosing'

@@ -5,17 +5,18 @@ from kivymd.uix.screen import MDScreen
 from kivy.core.window import WindowBase, Window
 
 ### UI imports
-from kivymd.uix.button.button import MDRectangleFlatButton
+from kivymd.uix.button import MDRectangleFlatButton, MDFillRoundFlatButton, MDFlatButton
 from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.datatables import MDDataTable
-from kivymd.uix.button import MDFillRoundFlatButton
 from kivymd.uix.label import MDLabel
 from kivymd.uix.textfield import MDTextField
 from kivy.properties import NumericProperty, AliasProperty
 from kivy.metrics import dp
 from kivy.config import Config
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.widget import MDWidget
 
 ### Typical module imports
 import pandas as pd
@@ -63,9 +64,6 @@ class CommonLogic():
     
     def update_ingredient_amount(text_field, *args, **kwargs):
         CommonLogic.ingredient_amounts[text_field.itemid] = text_field.text
-        #### REMOVE ####
-        CommonLogic.calculate_suitability()
-        #### REMOVE ####
     
     def calculate_suitability(*args, **kwargs) -> float:
         CommonLogic.calculation_errors = 0
@@ -95,8 +93,25 @@ class MainScreen(MDScreen):
 class RecipeScreen(MDScreen):
     pass
 
-class CalculationScreen(MDScreen):
-    pass
+class SuitabilityScreen(MDScreen):
+    
+    def show_result_dialog(*args, **kwargs):
+        dialog = MDDialog(
+            text=f"{round(CommonLogic.calculate_suitability()*100,1)}%",
+            buttons=[
+                MDFlatButton(
+                    text="CANCEL",
+                    #theme_text_color="Custom",
+                    #text_color=self.theme_cls.primary_color,
+                ),
+                MDFlatButton(
+                    text="DISCARD",
+                    #theme_text_color="Custom",
+                    #text_color=self.theme_cls.primary_color,
+                ),
+            ],
+        )
+        dialog.open()
 
 class IngredientChoosingScreen(MDScreen):
     table_added = False
@@ -110,7 +125,7 @@ class IngredientChoosingScreen(MDScreen):
                                         pagination_menu_pos='auto',
                                         background_color_header=BATTLESHIP_GREY,
                                         column_data=[('No.', dp(30)),('Toiduaine', dp(30)),('Sobivus', dp(30))],
-                                        row_data=[*zip([*(range(1,len(CommonLogic.ingredients)+1))],(x[0] for x in (CommonLogic.ingredients)),[*(f"{round(x*100,1)}%" for x in list(CommonLogic.df.mean(axis=0)))])],
+                                        row_data=[*zip([*(range(1,len(CommonLogic.ingredients)+1))],(x[0] for x in (CommonLogic.ingredients)),[*(f"{round(np.mean(x)*100,1)}%" for x in [*(CommonLogic.df[x] for x in CommonLogic.df.columns[1:])])])],
                                         rows_num=len(CommonLogic.ingredients)
                                         )
         
@@ -138,7 +153,7 @@ class IngredientChoosingScreen(MDScreen):
         CommonLogic.chosen_rows = self.choosing_table.get_row_checks()
     
     def button_action(self, *_):
-        self.parent.current = 'Calculation'
+        self.parent.current = 'Suitability'
         self.update_chosen_rows()
 
 class IngredientAmountChoosingScreen(MDScreen):
@@ -193,7 +208,7 @@ class IngredientAmountChoosingScreen(MDScreen):
         self.add_widget(button)
     
     def button_action(self, *_):
-        self.parent.current = 'Calculation'
+        self.parent.current = 'Suitability'
 
 class IngredientList(MDGridLayout):
     pass
