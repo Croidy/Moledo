@@ -22,6 +22,9 @@ from kivymd.uix.widget import MDWidget
 import pandas as pd
 import numpy as np
 import os
+from pathlib import Path
+import random
+from pdf2image import convert_from_path
 #from functools import cache
 
 
@@ -80,6 +83,22 @@ class CommonLogic():
                     CommonLogic.calculation_errors += 1
 
         return total_suitable
+    
+    def view_recipe(recipe:MDRectangleFlatButton):
+        filename = recipe.text
+        pic_exists = Path('data', 'recipe_pics', filename + '.jpg').exists()
+        new_file_loc = Path('data', 'recipe_pics', filename + '.jpg')
+        
+        if not pic_exists:
+            old_file_loc = Path('data', 'recipes', filename + '.pdf')
+
+            image = convert_from_path(old_file_loc, poppler_path='moledo-venv/poppler/Library/bin')
+            image[0].save(new_file_loc,'JPEG')
+        
+        RecipePicView.change_pic(filename, str(new_file_loc), recipe)
+
+
+
 
 
 
@@ -213,24 +232,29 @@ class IngredientAmountChoosingScreen(MDScreen):
 class IngredientList(MDGridLayout):
     pass
 
-class RecipeScrollView(MDScrollView):
-    recipes = os.listdir("data/recipes")
-    list_size = len(recipes)
-
 class RecipeList(MDGridLayout):
-    recipes = os.listdir("data/recipes")
-    list_size = len(recipes)
+    recipes = [x.name[:-4] for x in Path('data/recipes').iterdir()]
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        for recipe in RecipeScrollView.recipes:
-            self.add_widget(MDRectangleFlatButton(  text=recipe[:-4],
+        for recipe in self.recipes:
+            self.add_widget(MDRectangleFlatButton(  text=recipe,
                                                     size_hint=(1, None),
                                                     font_size=50,
                                                     md_bg_color=BATTLESHIP_GREY,
                                                     line_color=EERIE_BLACK,
-                                                    text_color=EERIE_BLACK
+                                                    text_color=EERIE_BLACK,
+                                                    on_release=CommonLogic.view_recipe
                                                 ))
+
+class RecipePicView(MDScreen):
+
+    @classmethod
+    def change_pic(self, recipe_name, image_location, widget):
+        self.recipe_name = recipe_name
+        self.image_location = image_location
+        
+        widget.parent.parent.parent.parent.parent.parent.current = 'Recipe View'
 
 class MyScreenManager(MDScreenManager):
     pass

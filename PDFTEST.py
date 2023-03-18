@@ -1,16 +1,13 @@
 from pdf2image import convert_from_path
+from pathlib import Path
 import pathlib
 
-"""
-p = pathlib.Path('data/recipes')
+recipe_path = Path('data/recipes')
 
-for file in p.iterdir():
-    images = convert_from_path(file, poppler_path='moledo-venv/poppler/Library/bin')
-    images[0].save(file,'JPEG')
-"""
+for file in recipe_path.iterdir():
+    new_file_name = Path('data\\recipe_pics\\', str(file.name[:-4]) + '.jpg')
+    image = convert_from_path(file, poppler_path='moledo-venv/poppler/Library/bin')
+    image[0].save(new_file_name,'JPEG')
+    
 
-p = pathlib.Path('test/test2')
-
-for image in p.iterdir():
-    images = convert_from_path(image,poppler_path='moledo-venv/poppler/Library/bin')
-    images[0].save(image, 'JPEG') # image saves to correct path
+print(*(x.name[:-4] for x in recipe_path.iterdir()),sep='\n')
