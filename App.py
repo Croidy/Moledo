@@ -97,11 +97,6 @@ class CommonLogic():
         
         RecipePicView.change_pic(filename, str(new_file_loc), recipe)
 
-
-
-
-
-
 class CenterLayout(MDAnchorLayout):
     MDAnchorLayout.anchor_x = 'center'
     MDAnchorLayout.anchor_y = 'center'
@@ -161,6 +156,7 @@ class IngredientChoosingScreen(MDScreen):
                 MDFillRoundFlatButton(
                     text='Kinnita',
                     font_size=70,
+                    md_bg_color=DARK_RED,
                     on_release=self.button_action
                     ),
                     anchor_x='right',
@@ -219,6 +215,7 @@ class IngredientAmountChoosingScreen(MDScreen):
                 MDFillRoundFlatButton(
                     text='Kinnita',
                     font_size=70,
+                    md_bg_color=DARK_RED,
                     on_release=self.button_action
                     ),
                     anchor_x='right',
