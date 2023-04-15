@@ -2,6 +2,7 @@
 from kivymd.app import MDApp
 from kivymd.uix.screenmanager import MDScreenManager
 from kivymd.uix.screen import MDScreen
+from kivy.core.clipboard import Clipboard
 from kivy.core.window import WindowBase, Window
 
 ### UI imports
@@ -111,20 +112,14 @@ class SuitabilityScreen(MDScreen):
     
     def show_result_dialog(*args, **kwargs):
         dialog = MDDialog(
-            text=f"{round(CommonLogic.calculate_suitability()*100,1)}%",
+            title=f"{round(CommonLogic.calculate_suitability()*100,1)}%",
             buttons=[
                 MDFlatButton(
-                    text="CANCEL",
-                    #theme_text_color="Custom",
-                    #text_color=self.theme_cls.primary_color,
-                ),
-                MDFlatButton(
-                    text="DISCARD",
-                    #theme_text_color="Custom",
-                    #text_color=self.theme_cls.primary_color,
+                    text="Sulge"
                 ),
             ],
         )
+        dialog.buttons[0].bind(on_release=dialog.dismiss)
         dialog.open()
 
 class IngredientChoosingScreen(MDScreen):
