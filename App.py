@@ -2,7 +2,6 @@
 from kivymd.app import MDApp
 from kivymd.uix.screenmanager import MDScreenManager
 from kivymd.uix.screen import MDScreen
-from kivy.core.clipboard import Clipboard
 from kivy.core.window import WindowBase, Window
 
 ### UI imports
@@ -22,9 +21,7 @@ from kivymd.uix.widget import MDWidget
 ### Typical module imports
 import pandas as pd
 import numpy as np
-import os
 from pathlib import Path
-import random
 from pdf2image import convert_from_path
 #from functools import cache
 
