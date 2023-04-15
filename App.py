@@ -50,7 +50,7 @@ WindowBase.fullscreen = True
 PRINCETON_ORANGE = (0.9 , 0.466 , 0.125 , 1)
 EERIE_BLACK = (0.1 , 0.1 , 0.1 , 1)
 BLOND = (1 , 0.96 , 0.698 , 1)
-DARK_RED = (0.58 , 0.105 , 0.05 , 1)
+CARRIBEAN_CURRENT = (0.02 , 0.45 , 0.46 , 1)
 BATTLESHIP_GREY = (0.518 , 0.55 , 0.555 , 1)
 
 
@@ -115,7 +115,7 @@ class SuitabilityScreen(MDScreen):
             title=f"{round(CommonLogic.calculate_suitability()*100,1)}%",
             buttons=[
                 MDFlatButton(
-                    text="Sulge"
+                    text='Sulge'
                 ),
             ],
         )
@@ -131,7 +131,9 @@ class IngredientChoosingScreen(MDScreen):
         self.choosing_table = MDDataTable(
                                         check=True,
                                         use_pagination=False,
-                                        pagination_menu_pos='auto',
+                                        elevation=0,
+                                        size_hint=(0.26, 1),
+                                        pagination_menu_pos='center',
                                         background_color_header=BATTLESHIP_GREY,
                                         column_data=[('No.', dp(30)),('Toiduaine', dp(30)),('Sobivus', dp(30))],
                                         row_data=[*zip([*(range(1,len(CommonLogic.ingredients)+1))],(x[0] for x in (CommonLogic.ingredients)),[*(f"{round(np.mean(x)*100,1)}%" for x in [*(CommonLogic.df[x] for x in CommonLogic.df.columns[1:])])])],
@@ -151,7 +153,7 @@ class IngredientChoosingScreen(MDScreen):
                 MDFillRoundFlatButton(
                     text='Kinnita',
                     font_size=70,
-                    md_bg_color=DARK_RED,
+                    md_bg_color=CARRIBEAN_CURRENT,
                     on_release=self.button_action
                     ),
                     anchor_x='right',
@@ -198,6 +200,7 @@ class IngredientAmountChoosingScreen(MDScreen):
                 hint_text='Kogus grammides',
                 size_hint=(1, None),
                 font_size=40)
+
             text_field.itemid=item_name
             text_field.bind(focus=CommonLogic.update_ingredient_amount)
             self.ids.ingredient_list.add_widget(text_field)
@@ -210,7 +213,7 @@ class IngredientAmountChoosingScreen(MDScreen):
                 MDFillRoundFlatButton(
                     text='Kinnita',
                     font_size=70,
-                    md_bg_color=DARK_RED,
+                    md_bg_color=CARRIBEAN_CURRENT,
                     on_release=self.button_action
                     ),
                     anchor_x='right',

@@ -7,7 +7,7 @@
 #fff5b2 -   Blond               -   1 , 0.96 , 0.698 , 1
 
 
-#941b0c -   Dark Red            -   0.58 , 0.105 , 0.05 , 1
+#941b0c -   Carribean Current   -   0.02 , 0.45 , 0.46 , 1
 
 
 #848c8e -   Battleship Grey     -   0.518 , 0.55 , 0.555 , 1
