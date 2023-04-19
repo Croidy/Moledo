@@ -48,7 +48,7 @@ PRINCETON_ORANGE = (0.9 , 0.466 , 0.125 , 1)
 EERIE_BLACK = (0.1 , 0.1 , 0.1 , 1)
 BLOND = (1 , 0.96 , 0.698 , 1)
 CARRIBEAN_CURRENT = (0.02 , 0.45 , 0.46 , 1)
-BATTLESHIP_GREY = (0.518 , 0.55 , 0.555 , 1)
+GREY = (0.51 , 0.46 , 0.43 , 1)
 
 
 
@@ -131,7 +131,7 @@ class IngredientChoosingScreen(MDScreen):
                                         elevation=0,
                                         size_hint=(0.26, 1),
                                         pagination_menu_pos='center',
-                                        background_color_header=BATTLESHIP_GREY,
+                                        background_color_header=GREY,
                                         column_data=[('No.', dp(30)),('Toiduaine', dp(30)),('Sobivus', dp(30))],
                                         row_data=[*zip([*(range(1,len(CommonLogic.ingredients)+1))],(x[0] for x in (CommonLogic.ingredients)),[*(f"{round(np.mean(x)*100,1)}%" for x in [*(CommonLogic.df[x] for x in CommonLogic.df.columns[1:])])])],
                                         rows_num=len(CommonLogic.ingredients)
@@ -233,7 +233,7 @@ class RecipeList(MDGridLayout):
             self.add_widget(MDRectangleFlatButton(  text=recipe,
                                                     size_hint=(1, None),
                                                     font_size=50,
-                                                    md_bg_color=BATTLESHIP_GREY,
+                                                    md_bg_color=GREY,
                                                     line_color=EERIE_BLACK,
                                                     text_color=EERIE_BLACK,
                                                     on_release=CommonLogic.view_recipe

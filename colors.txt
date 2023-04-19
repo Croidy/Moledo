@@ -10,4 +10,4 @@
 #941b0c -   Carribean Current   -   0.02 , 0.45 , 0.46 , 1
 
 
-#848c8e -   Battleship Grey     -   0.518 , 0.55 , 0.555 , 1
+#848c8e -   Grey                -   0.51 , 0.46 , 0.43 , 1
