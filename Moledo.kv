@@ -71,11 +71,11 @@ MyScreenManager:
 
             CenterLayout:
                 MDFillRoundFlatButton:
-                    text: 'Allergia hoiatused'
-                    font_size: self.size[0]*self.size[1]/1300
+                    text: 'Välju'
+                    font_size: 93
                     md_bg_color: EERIE_BLACK
-                    on_release: #app.root.current = 'Recipe'
-                    size_hint: 0.4 , 0.5
+                    on_release: exit()
+                    size_hint: 0.25 , 0.5
 
 <RecipeScreen>:
     name: 'Recipe'
